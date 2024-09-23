@@ -6,13 +6,27 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'npm install'
+                script {
+                    if (isUnix()) {
+                        sh 'npm install'
+                    } else {
+                        bat 'npm install'
+                    }
+                }
             }
         }
         stage('Test') {
             steps {
-                sh './jenkins/scripts/test.sh'
+                script {
+                    if (isUnix()) {
+                        sh './jenkins/scripts/test.sh'
+                    } else {
+                        bat 'jenkins\\scripts\\test.bat'
+                    }
+                }
             }
         }
     }
 }
+
+
