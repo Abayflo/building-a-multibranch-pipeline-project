@@ -21,12 +21,11 @@ pipeline {
                     if (isUnix()) {
                         sh './jenkins/scripts/test.sh'
                     } else {
-                        bat 'jenkins\\scripts\\test.bat'
+                        // Corrected path for Windows
+                        bat '.\\jenkins\\scripts\\test.bat'
                     }
                 }
             }
         }
     }
 }
-
-
