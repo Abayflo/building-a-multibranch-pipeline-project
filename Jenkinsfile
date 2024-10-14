@@ -19,7 +19,15 @@ pipeline {
                 branch 'development' 
             }
             steps {
-                sh 'nohup ./jenkins/scripts/deliver-for-development.sh &'
+                script {
+                    if (isUnix()) {
+                        // For Unix-like systems
+                        sh 'nohup ./jenkins/scripts/deliver-for-development.sh &'
+                    } else {
+                        // For Windows systems
+                        bat 'start /b ./jenkins/scripts/deliver-for-development.bat'
+                    }
+                }
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh './jenkins/scripts/kill.sh'
             }
@@ -29,7 +37,15 @@ pipeline {
                 branch 'production'  
             }
             steps {
-                sh 'nohup ./jenkins/scripts/deploy-for-production.sh &'
+                script {
+                    if (isUnix()) {
+                        // For Unix-like systems
+                        sh 'nohup ./jenkins/scripts/deploy-for-production.sh &'
+                    } else {
+                        // For Windows systems
+                        bat 'start /b ./jenkins/scripts/deploy-for-production.bat'
+                    }
+                }
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh './jenkins/scripts/kill.sh'
             }
